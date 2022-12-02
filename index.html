@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Cocktail Wizard</title>
 </head>
+
 <body>
-    <div id="first-fetch">
-        <button id="btn">Fetch fetch</button>
+    <div>
+        <h2>Ingredients</h2>
+        <form id="search-form">
+            <select name="" id="ingredient-one">
+                <option value="">Select One</option>
+                <option value="tequila">Tequila</option>
+                <option value="vodka">Vodka</option>
+                <option value="gin">Gin</option>
+            </select>
+            <select name="" id="ingredient-two">
+                <option value="tequila">Tequila</option>
+                <option value="vodka">Vodka</option>
+                <option value="gin">Gin</option>
+            </select>
+            <button id="search-button">Search</button>
+        </form>
     </div>
+
+    <div id="error-message"></div>
     <div id="drink-list"></div>
     <div id="single-drink"></div>
+    <button id="save-button" class="hidden">Save to Favorites</button>
 </body>
 <script src="./assets/script.js"></script>
+
 </html>
