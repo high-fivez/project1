@@ -8,6 +8,8 @@ let errorMessage = document.querySelector("#error-message");
 let ingredientOne = document.querySelector("#ingredient-one");
 let ingredientTwo = document.querySelector("#ingredient-two");
 let saveBtn = document.querySelector("#save-button");
+let showBtn = document.querySelector("#show-favorites");
+let allFavoritesDiv = document.querySelector("#all-favorites");
 let savedDrinksArray = JSON.parse(localStorage.getItem("drinks")) || [];
 
 // functions
@@ -89,8 +91,16 @@ function saveFavorites() {
   localStorage.setItem("drinks", JSON.stringify(savedDrinksArray));
 }
 
+function showFavorites() {
+  allFavoritesDiv.innerHTML = "";
+  savedDrinksArray.forEach((drink) => {
+    allFavoritesDiv.innerHTML += `<a href="index.html?q=${drink}">${drink}</a> <br>`;
+  });
+}
+
 // event listeners
 
 searchBtn.addEventListener("click", getApi);
 saveBtn.addEventListener("click", saveFavorites);
+showBtn.addEventListener("click", showFavorites);
 handleDrinkDisplay();
