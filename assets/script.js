@@ -11,6 +11,7 @@ let saveBtn = document.querySelector("#save-button");
 let showBtn = document.querySelector("#show-favorites");
 let allFavoritesDiv = document.querySelector("#all-favorites");
 let savedDrinksArray = JSON.parse(localStorage.getItem("drinks")) || [];
+let searchDiv = document.querySelector("#search-div");
 
 // functions
 function getApi(event) {
@@ -81,6 +82,7 @@ function drinkImgRec(drink) {
       saveBtn.setAttribute("data-drinktosave", data.drinks[0].strDrink);
       // console log names of drinks, push them into a global array - second fetch and compare arrays
       saveBtn.classList.remove("hidden");
+      searchForm.classList.add("hidden");
     });
 }
 

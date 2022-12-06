@@ -1,40 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+    </style>
     <title>Cocktail Wizard</title>
 </head>
 
-<body>
-    <div>
-        <h2>Ingredients</h2>
-        <form id="search-form">
-            <select name="" id="ingredient-one">
-                <option value="">Select One</option>
-                <option value="tequila">Tequila</option>
-                <option value="vodka">Vodka</option>
-                <option value="gin">Gin</option>
-            </select>
-            <select name="" id="ingredient-two">
-                <option value="tequila">Tequila</option>
-                <option value="vodka">Vodka</option>
-                <option value="gin">Gin</option>
-            </select>
-            <button id="search-button">Search</button>
-        </form>
-    </div>
-    <button id="show-favorites">Show Favorites</button>
-    <div id="all-favorites"></div>
+<body class="flex flex-col bg-[#560badff] h-full relative">
+    <header class="bg-[#fdc500ff] p-3 rounded-lg flex justify-between">
+        <h1 style="font-family: 'Courgette', cursive;" class="text-5xl text-[#560badff] font-semibold"><a
+                href="./index.html">COCKTAIL WIZARD</a></h1>
+        <div><button class="hover:opacity-75 bg-[#560badff] text-[#fdc500ff] rounded-full p-2 underline"
+                id="show-favorites">Show Favorites</button></div>
+    </header>
 
-    <div id="error-message"></div>
-    <div id="drink-list"></div>
-    <div id="single-drink"></div>
-    <button id="save-button" class="hidden">Save to Favorites</button>
+    <div id="search-div"
+        class="flex-1 rounded-lg bg-[url('https://1.bp.blogspot.com/-62UHPHX6Phk/WKEzWpFjAkI/AAAAAAAAM1M/wN-tp9vKWagedZScNFY1UaRIXLew9mQ1gCLcB/s1600/Hurricane-HERO.jpg')] mt-8">
+
+        <form
+            class="rounded-lg text-[#560badff] flex flex-col justify-center items-center p-4 backdrop-blur-sm bg-white/30 w-full h-full"
+            id="search-form">
+            <h2 class="mb-4 text-center text-xl font-bold">Select up to two ingredients to find a cocktail containing
+                those liquors</h2>
+            <div class="flex justify-center">
+                <select class="rounded-lg p-2" name="" id="ingredient-one">
+                    <option value="">Liquor 1</option>
+                    <option value="tequila">Tequila</option>
+                    <option value="vodka">Vodka</option>
+                    <option value="gin">Gin</option>
+                    <option value="gin">Gin</option>
+                    <option value="gin">Gin</option>
+                    <option value="gin">Gin</option>
+
+                </select>
+                <select class="rounded-lg p-2 ml-2" name="" id="ingredient-two">
+                    <option value="">Liquor 2</option>
+
+                    <option value="tequila">Tequila</option>
+                    <option value="vodka">Vodka</option>
+                    <option value="gin">Gin</option>
+                </select>
+                <button class="hover:opacity-75 bg-[#560badff] text-[#fdc500ff] rounded-lg p-2 ml-4"
+                    id="search-button">Search</button>
+            </div>
+        </form>
+        <div class="bg-[#fdc500ff]" id="all-favorites"></div>
+
+        <div id="error-message"></div>
+        <div class="bg-[#fdc500ff] mt-8" id="drink-list"></div>
+        <div class="bg-[#fdc500ff] rounded-md" id="single-drink"></div>
+        <button id="save-button" class="hidden rounded-full bg-[#fdc500ff] p-2">Save to Favorites</button>
+    </div>
+    <footer class="fixed bottom-0 w-full bg-[#fdc500ff] text-[#560badff] mt-8 rounded-lg p-4 font-bold text-end">
+        <p>created by high-fivez 👋🏿</p>
+    </footer>
 </body>
 <script src="./assets/script.js"></script>
 
 </html>
+
+
+
+<!-- ///* CSS HEX */
+--purple: #560badff;
+--purple-2: #7209b7ff;
+--flickr-pink: #f72585ff;
+--golden-poppy: #fdc500ff;
+--gold-web-golden: #ffd500ff; -->
