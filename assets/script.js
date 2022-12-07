@@ -11,13 +11,21 @@ let saveBtn = document.querySelector("#save-button");
 let showBtn = document.querySelector("#show-favorites");
 let allFavoritesDiv = document.querySelector("#all-favorites");
 let savedDrinksArray = JSON.parse(localStorage.getItem("drinks")) || [];
+let drinkDiv = document.querySelector("#drink-div");
 let searchDiv = document.querySelector("#search-div");
+let singleDrinkName = document.querySelector("#single-drink-name");
+let singleDrinkImg = document.querySelector("#single-drink-img");
+let singleDrinkRecipe = document.querySelector("#single-drink-recipe");
+let singleDrinkDiv = document.querySelector("#single-drink-div");
+let singleDrinkIngredients = document.querySelector("#single-drink-ingredients");
 
 // functions
 function getApi(event) {
   event.preventDefault();
   let requestUrl = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientOne.value}`;
   console.log("button clicked");
+  searchDiv.classList.add("hidden");
+  drinkList.classList.remove("hidden");
   fetch(requestUrl)
     .then(function (response) {
       // if (!response.ok) {
@@ -45,7 +53,7 @@ function getApi(event) {
             let drinkName = drink.strDrink;
             console.log(drinkName);
             // listOfDrinks.push(drinkName);
-            drinkList.innerHTML += `<div id="${drinkName}"><a href="index.html?q=${drinkName}">${drinkName}</a></div>`;
+            drinkList.innerHTML += `<div class="text-xl text-[#560badff] underline p-1 text-center" id="${drinkName}"><a href="index.html?q=${drinkName}">${drinkName}</a></div> <br>`;
           });
         });
       // check for no data
@@ -57,7 +65,7 @@ function handleDrinkDisplay() {
   const drink = urlParams.get("q") || "";
   if (drink !== "") {
     console.log("drink from html", drink);
-    singleDrink.innerHTML = drink;
+    singleDrinkName.innerHTML = drink;
     // diff fetch to get the recipe and image
     drinkImgRec(drink);
   }
@@ -75,29 +83,41 @@ function drinkImgRec(drink) {
       let drinkRecipe = data.drinks[0].strInstructions;
       console.log("drinkPic", drinkPicURL);
       // listOfDrinks.push(drinkName);
-      singleDrink.innerHTML += `<img src="${drinkPicURL}">`;
+      singleDrinkImg.innerHTML += `<img class="w-96 h-96 p-4" src="${drinkPicURL}">`;
       // button to select recipe in English or Spanish
-      singleDrink.innerHTML += `<p>${drinkRecipe}</p>`;
+      // singleDrink.innerHTML += `<p class="text-center text-[#560badff] p-2 col-span-1 items-center">${drinkRecipe}</p>`;
+      singleDrinkRecipe.innerHTML += drinkRecipe;
+      for (i = 1; i < 16; i++) {
+        let measureInd = `strMeasure${i}`;
+        let ingredientInd = `strIngredient${i}`;
+        if (data.drinks[0][measureInd] !== null) {
+          singleDrinkIngredients.innerHTML += `<p>${data.drinks[0][measureInd]} ${data.drinks[0][ingredientInd]}`;
+        }
+      }
       // add drink name as data attribute to save button
       saveBtn.setAttribute("data-drinktosave", data.drinks[0].strDrink);
       // console log names of drinks, push them into a global array - second fetch and compare arrays
       saveBtn.classList.remove("hidden");
-      searchForm.classList.add("hidden");
+      searchDiv.classList.add("hidden");
+      singleDrinkDiv.classList.remove("hidden");
     });
 }
 
 function saveFavorites() {
   let savedDrinkName = this.getAttribute("data-drinktosave");
   console.log(savedDrinkName);
-  savedDrinksArray.push(savedDrinkName);
-  localStorage.setItem("drinks", JSON.stringify(savedDrinksArray));
+  if (!savedDrinksArray.includes(savedDrinkName)) {
+    savedDrinksArray.push(savedDrinkName);
+    localStorage.setItem("drinks", JSON.stringify(savedDrinksArray));
+  }
 }
 
 function showFavorites() {
-  allFavoritesDiv.innerHTML = "";
+  allFavoritesDiv.innerHTML = "<h2 class='mb-4 text-center font-bold text-2xl'>Your Favorites</h2>";
   savedDrinksArray.forEach((drink) => {
-    allFavoritesDiv.innerHTML += `<a href="index.html?q=${drink}">${drink}</a> <br>`;
+    allFavoritesDiv.innerHTML += `<a class="block mt-1" href="index.html?q=${drink}">${drink}</a> <br>`;
   });
+  allFavoritesDiv.classList.remove("hidden");
 }
 
 // event listeners
