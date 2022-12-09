@@ -16,7 +16,7 @@ My experience creating this webpage was a bit challenging due to it being a mix 
 
 ## Screenshot
 
-<img width="1470" alt="Screen Shot 2022-12-08 at 12 22 53 PM" src="https://user-images.githubusercontent.com/115853252/206535432-d060249b-51b2-4096-83ec-51b5e94a9583.png">
+![D8E88D3E-7A9A-4198-8B21-5475CB61B406_1_201_a](https://user-images.githubusercontent.com/115853252/206594835-31e2c8af-2ba0-407a-b964-9ab3dc23d9b8.jpeg)
 
 ## Credits
 
