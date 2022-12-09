@@ -1,5 +1,3 @@
-// global
-
 let searchForm = document.querySelector("#search-form");
 let searchBtn = document.querySelector("#search-button");
 let drinkList = document.querySelector("#drink-list");
@@ -19,29 +17,29 @@ let singleDrinkRecipe = document.querySelector("#single-drink-recipe");
 let singleDrinkDiv = document.querySelector("#single-drink-div");
 let singleDrinkIngredients = document.querySelector("#single-drink-ingredients");
 
-// functions
 function getApi(event) {
   event.preventDefault();
   let requestUrl = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientOne.value}`;
-  console.log("button clicked");
   searchDiv.classList.add("hidden");
   drinkList.classList.remove("hidden");
   fetch(requestUrl)
     .then(function (response) {
-      // if (!response.ok) {
-      //   throw Error(response.statusText);
-      // }
       return response.json();
     })
     .then(function (data) {
+      if (ingredientTwo.value === "") {
+        data.drinks.forEach((drink) => {
+          let drinkName = drink.strDrink;
+          drinkList.innerHTML += `<div class="text-xl text-[#560badff] underline p-1 text-center" id="${drinkName}"><a href="index.html?q=${drinkName}">${drinkName}</a></div> <br>`;
+        });
+        return;
+      }
       let secondRequestUrl = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientTwo.value}`;
       fetch(secondRequestUrl)
         .then(function (response) {
           return response.json();
         })
         .then(function (dataTwo) {
-          console.log("one", data.drinks);
-          console.log("two", dataTwo.drinks);
           const values = data.drinks.concat(dataTwo.drinks);
           const lookup = values.reduce((a, e) => {
             a[e.strDrink] = ++a[e.strDrink] || 0;
@@ -49,14 +47,15 @@ function getApi(event) {
           }, {});
           let duplicates = values.filter((e) => lookup[e.strDrink]);
           duplicates = duplicates.filter((value, index, self) => index === self.findIndex((t) => t.strDrink === value.strDrink));
-          duplicates.forEach((drink) => {
-            let drinkName = drink.strDrink;
-            console.log(drinkName);
-            // listOfDrinks.push(drinkName);
-            drinkList.innerHTML += `<div class="text-xl text-[#560badff] underline p-1 text-center" id="${drinkName}"><a href="index.html?q=${drinkName}">${drinkName}</a></div> <br>`;
-          });
+          if (duplicates.length === 0) {
+            drinkList.innerHTML += '<div class="text-xl text-[#560badff] p-1 text-center">Your liquor combination is too toxic for us, seek help</div>';
+          } else {
+            duplicates.forEach((drink) => {
+              let drinkName = drink.strDrink;
+              drinkList.innerHTML += `<div class="text-xl text-[#560badff] underline p-1 text-center" id="${drinkName}"><a href="index.html?q=${drinkName}">${drinkName}</a></div> <br>`;
+            });
+          }
         });
-      // check for no data
     });
 }
 
@@ -64,15 +63,12 @@ function handleDrinkDisplay() {
   const urlParams = new URLSearchParams(window.location.search);
   const drink = urlParams.get("q") || "";
   if (drink !== "") {
-    console.log("drink from html", drink);
     singleDrinkName.innerHTML = drink;
-    // diff fetch to get the recipe and image
     drinkImgRec(drink);
   }
 }
 
 function drinkImgRec(drink) {
-  // function from a click event
   let requestDrink = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${drink}`;
   fetch(requestDrink)
     .then(function (response) {
@@ -81,11 +77,7 @@ function drinkImgRec(drink) {
     .then(function (data) {
       let drinkPicURL = data.drinks[0].strDrinkThumb;
       let drinkRecipe = data.drinks[0].strInstructions;
-      console.log("drinkPic", drinkPicURL);
-      // listOfDrinks.push(drinkName);
       singleDrinkImg.innerHTML += `<img class="w-96 h-96 p-4" src="${drinkPicURL}">`;
-      // button to select recipe in English or Spanish
-      // singleDrink.innerHTML += `<p class="text-center text-[#560badff] p-2 col-span-1 items-center">${drinkRecipe}</p>`;
       singleDrinkRecipe.innerHTML += drinkRecipe;
       for (i = 1; i < 16; i++) {
         let measureInd = `strMeasure${i}`;
@@ -94,9 +86,7 @@ function drinkImgRec(drink) {
           singleDrinkIngredients.innerHTML += `<p>${data.drinks[0][measureInd]} ${data.drinks[0][ingredientInd]}`;
         }
       }
-      // add drink name as data attribute to save button
       saveBtn.setAttribute("data-drinktosave", data.drinks[0].strDrink);
-      // console log names of drinks, push them into a global array - second fetch and compare arrays
       saveBtn.classList.remove("hidden");
       searchDiv.classList.add("hidden");
       singleDrinkDiv.classList.remove("hidden");
@@ -105,7 +95,6 @@ function drinkImgRec(drink) {
 
 function saveFavorites() {
   let savedDrinkName = this.getAttribute("data-drinktosave");
-  console.log(savedDrinkName);
   if (!savedDrinksArray.includes(savedDrinkName)) {
     savedDrinksArray.push(savedDrinkName);
     localStorage.setItem("drinks", JSON.stringify(savedDrinksArray));
@@ -119,8 +108,6 @@ function showFavorites() {
   });
   allFavoritesDiv.classList.remove("hidden");
 }
-
-// event listeners
 
 searchBtn.addEventListener("click", getApi);
 saveBtn.addEventListener("click", saveFavorites);
